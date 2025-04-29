@@ -104,153 +104,201 @@ CREATE TABLE Table_Name (
 ```
 
 **Question 1**
-Write an SQL query to add a new column email of type TEXT to the Student_details table, and ensure that this column cannot contain NULL values and make default value as 'Invalid'
 
-![Screenshot (562)](https://github.com/user-attachments/assets/2c9031e9-3a5d-4b50-9d4a-59a2bab75925)
+Create a table named **Bonuses** with the following constraints:<br>
+&emsp;**BonusID** as **INTEGER** should be the primary key.<br>
+&emsp;**EmployeeID** as **INTEGER** should be a foreign key referencing Employees(EmployeeID).<br>
+&emsp;**BonusAmount** as **REAL** should be greater than 0.<br>
+&emsp;**BonusDate** as **DATE**.<br>
+&emsp;**Reason** as **TEX**T should not be **NULL**.<br>
 
+```sql
+CREATE TABLE Bonuses(
+    BonusID INT PRIMARY KEY,
+    EmployeeID INT,
+    BonusAmount REAL CHECK(BonusAmount > 1),
+    BonusDate DATE,
+    Reason TEXT NOT NULL,
+    FOREIGN KEY(EmployeeID) references Employees(EmployeeID)
+);
+```
 
 **Output:**
 
-![Screenshot (563)](https://github.com/user-attachments/assets/22ba52c2-cf4b-4c5e-a217-2f5d9baa71f0)
-
+![image](https://github.com/user-attachments/assets/cdd261a8-6b7f-4d19-a87f-0d02c7d217b5)
 
 
 **Question 2**
 
-Write a SQL query to add birth_date attribute as timestamp (datatype) in the table customer 
+Create a table named **Invoices** with the following constraints:<br>
+&emsp;**InvoiceID** as **INTEGER** should be the primary key.<br>
+&emsp;**InvoiceDate** as **DATE**.<br>
+&emsp;**Amount** as **REAL** should be greater than 0.<br>
+&emsp;**DueDate** as **DATE** should be greater than the **InvoiceDate**.<br>
+&emsp;**OrderID** as **INTEGER** should be a foreign key referencing **Orders(OrderID)**.<br>
 
-Sample table: customer
-
-![Screenshot (564)](https://github.com/user-attachments/assets/526d34a5-0a3a-4f66-bbc3-38a7800a3372)
-
-
+```sql
+CREATE TABLE Invoices(
+    InvoiceID INT PRIMARY KEY,
+    InvoiceDate DATE,
+    Amount REAL CHECK(Amount > 0),
+    DueDate DATE CHECK (DueDate > InvoiceDate),
+    OrderID INT,
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
+);
+```
 
 **Output:**
 
-![Screenshot (565)](https://github.com/user-attachments/assets/687006af-3c5e-4b00-ad2e-f14dfb1e946d)
-
-
+![image](https://github.com/user-attachments/assets/5260fe3c-3e22-4356-9c05-e3ece1a2c9de)
 
 **Question 3**
 
-Create a table named Invoices with the following constraints:
+Insert all customers from **Old_customers** into **Customers**:<br>
+Table attributes are **CustomerID**, **Name**, **Address**, **Email**.<br>
 
-InvoiceID as INTEGER should be the primary key.
-InvoiceDate as DATE.
-DueDate as DATE should be greater than the InvoiceDate.
-Amount as REAL should be greater than 0.
-
-![Screenshot (566)](https://github.com/user-attachments/assets/6e0ca33d-3af2-4b03-9dad-cea58cfaea96)
+```sql
+INSERT INTO Customers SELECT * FROM Old_customers; 
+```
 
 **Output:**
 
-![Screenshot (568)](https://github.com/user-attachments/assets/5dc31042-b668-4363-b5cb-985d1010d9f9)
-
+![image](https://github.com/user-attachments/assets/0f7ca206-9d2c-4d55-9606-93f17a28966c)
 
 **Question 4**
+---
+Insert the following customers into the **Customers** table:<br>
+| CustomerID | Name         | Address     | City    | ZipCode |
+|------------|--------------|-------------|---------|---------|
+| 302        | Laura Croft  | 456 Elm St  | Seattle | 98101   |
+| 303        | Bruce Wayne  | 789 Oak St  | Gotham  | 10001   |
 
-Insert all students from Archived_students table into the Student_details table.
-![Screenshot (567)](https://github.com/user-attachments/assets/0887579d-b476-46a7-9885-14e40f9203c8)
-
+```sql
+INSERT INTO Customers VALUES(302,'Laura Croft','456 Elm St','Seattle',98101);
+INSERT INTO Customers VALUES(303,'Bruce Wayne','789 Oak St','Gotham',10001);
+```
 
 **Output:**
 
-![Screenshot (569)](https://github.com/user-attachments/assets/e1ec8c75-70ae-4da1-90a6-9e152f662076)
-
-
+![image](https://github.com/user-attachments/assets/e0343ec2-02fa-4f7e-8ead-f803890f64f5)
 
 **Question 5**
-Create a table named Customers with the following columns:
 
-CustomerID as INTEGER
-Name as TEXT
-Email as TEXT
-JoinDate as DATETIME
+Create a table named **Products** with the following columns:<br>
+&emsp;**ProductID** as **INTEGER**<br>
+&emsp;**ProductName** as **TEXT**<br>
+&emsp;**Price** as **REAL**<br>
+&emsp;**Stock** as **INTEGER**<br>
 
-![Screenshot (570)](https://github.com/user-attachments/assets/2173739b-d0db-49eb-abd0-1ff7e7b6e450)
-
+```sql
+CREATE TABLE Products(
+    ProductID INTEGER,
+    ProductName TEXT,
+    Price REAL,
+    Stock INTEGER
+);
+```
 
 **Output:**
-![Screenshot (571)](https://github.com/user-attachments/assets/dec33c28-72bb-495e-b0bc-5cbd79309b9a)
 
+![image](https://github.com/user-attachments/assets/fe80fb64-0c7a-494d-b8f8-a1f3732910fa)
 
 **Question 6**
 
-Create a new table named orders with the following specifications:
-ord_id as TEXT with a length of 4.
-item_id as TEXT.
-ord_date as DATE.
-ord_qty as INTEGER.
-cost as INTEGER.
-The primary key is a composite key consisting of item_id and ord_date.
-ord_id and item_id should not accept NULL
+Create a table named **Shipments** with the following constraints:<br>
+&emsp;**ShipmentID** as **INTEGER** should be the primary key.<br>
+&emsp;**ShipmentDate** as **DATE**.<br>
+&emsp;**SupplierID** as **INTEGER** should be a foreign key referencing **Suppliers(SupplierID)**.<br>
+&emsp;**OrderID** as **INTEGER** should be a foreign key referencing **Orders(OrderID)**.<br>
 
-![Screenshot (572)](https://github.com/user-attachments/assets/3ec36549-1328-4fc0-8839-dd8982b7a22a)
-
-
+```sql
+CREATE TABLE Shipments(
+    ShipmentID INTEGER PRIMARY KEY,
+    ShipmentDate DATE,
+    SupplierID INTEGER,
+    OrderID INTEGER,
+    FOREIGN KEY(SupplierID) REFERENCES Suppliers(SupplierID),
+    FOREIGN KEY(OrderID) REFERENCES Orders(OrderID)
+);
+```
 
 **Output:**
 
-![Screenshot (573)](https://github.com/user-attachments/assets/a0bb056e-b40c-4b78-a16c-6eb7e5bc94b5)
-
-
+![image](https://github.com/user-attachments/assets/abc827a8-adf0-4924-b2be-616e681c7e84)
 
 **Question 7**
 
-Create a table named Invoices with the following constraints:
-InvoiceID as INTEGER should be the primary key.
-InvoiceDate as DATE.
-Amount as REAL should be greater than 0.
-DueDate as DATE should be greater than the InvoiceDate.
-OrderID as INTEGER should be a foreign key referencing Orders(OrderID).
+Insert a student with **RollNo** 201, **Name** David Lee, **Gender** M, **Subject** Physics, and **MARKS** 92 into the **Student_details** table.
 
-![Screenshot (574)](https://github.com/user-attachments/assets/7f58f2d1-d4fe-4164-93fe-5ca6b2de2358)
-
-
+```sql
+INSERT INTO Student_details VALUES(201,'David Lee','M','Physics',92);
+```
 
 **Output:**
-![Screenshot (575)](https://github.com/user-attachments/assets/309589de-fe9f-4882-843e-1207f5081152)
 
+![image](https://github.com/user-attachments/assets/d0c14eba-d4d3-4437-a445-264ebe6a4d3f)
 
 **Question 8**
 
-Insert the below data into the Customers table, allowing the City and ZipCode columns to take their default values.
+Write an SQL Query to add the attributes **designation**, **net_salary**, and **dob** to the **Companies** table with the following data types:<br>
+&emsp;**designation** as **VARCHAR(50)** <br>
+&emsp;**net_salary** as **NUMBER**<br>
+&emsp;**dob** as **DATE**
 
-![Screenshot (576)](https://github.com/user-attachments/assets/c6ab31fd-298c-4ed4-93cc-2ce2d1913610)
-
-
+```sql
+ALTER TABLE Companies ADD designation varchar(50);
+ALTER TABLE Companies ADD net_salary number;
+ALTER TABLE Companies ADD dob date;
+```
 
 **Output:**
 
-![Screenshot (577)](https://github.com/user-attachments/assets/967fdc40-8d10-4b12-b6ab-228916158b27)
-
+![image](https://github.com/user-attachments/assets/51c4272a-ea22-483c-a555-7834bd1d1871)
 
 **Question 9**
 
-In the Student_details table, insert a student record where some fields are NULL, another record where all fields are filled without any NULL values, and a third record where some fields are filled, and others are left as NULL.
+Create a new table named **products** with the following specifications:<br>
+&emsp;**product_id** as **INTEGER** and primary key.<br>
+&emsp;**product_name** as **TEXT** and not NULL.<br>
+&emsp;**list_price** as **DECIMAL (10, 2)** and not NULL.<br>
+&emsp;**discount** as **DECIMAL (10, 2)** with a default value of 0 and not NULL.<br>
+&emsp;A **CHECK** constraint at the table level to ensure:<br>
+&emsp;&emsp;**list_price** is greater than or equal to **discount**<br>
+&emsp;&emsp;**discount** is greater than or equal to 0<br>
+&emsp;&emsp;**list_price** is greater than or equal to 0
 
-
-![Screenshot (579)](https://github.com/user-attachments/assets/6db2f61d-f8c8-4f4f-8d8a-e7f9e1a744dd)
+```sql
+CREATE TABLE products(
+    product_id integer primary key,
+    product_name text not null,
+    list_price decimal(10,2) not null check (list_price >= discount),
+    discount decimal(10,2) default 0 check (discount >= 0)
+);
+```
 
 **Output:**
 
-![Screenshot (580)](https://github.com/user-attachments/assets/496b6bd4-46e0-477b-ab7e-06f11577810b)
-
+![image](https://github.com/user-attachments/assets/6badb06f-eb18-41ff-a01b-e1561cdb5c4d)
 
 **Question 10**
 
-Create a table named Departments with the following columns:
+Insert the following customers into the **Customers** table:<br>  
+| CustomerID | Name         | Address     | City    | ZipCode |
+|------------|--------------|-------------|---------|---------|
+| 302        | Laura Croft  | 456 Elm St  | Seattle | 98101   |
+| 303        | Bruce Wayne  | 789 Oak St  | Gotham  | 10001   |
 
-DepartmentID as INTEGER
-DepartmentName as TEXT
-
-![Screenshot (581)](https://github.com/user-attachments/assets/8cfd6864-b90e-41e2-8b27-2d63bf594473)
-
+```sql
+ALTER TABLE customer ADD birth_date timestamp;
+```
 
 **Output:**
 
-![Screenshot (582)](https://github.com/user-attachments/assets/e8345f0a-abbb-404e-9bdb-ef57ac038327)
+![image](https://github.com/user-attachments/assets/9c1dd310-e28a-4726-9d3f-43d822aa7135)
 
+**MODULE-1 GRADE**
+
+![image](https://github.com/user-attachments/assets/bcf28330-d708-40e2-9dd8-b929ff92f580)
 
 ## RESULT
 Thus, the SQL queries to implement different types of constraints and DDL commands have been executed successfully.
